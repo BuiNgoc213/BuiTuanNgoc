@@ -1,0 +1,7 @@
+﻿		--Ý TƯỞNG GAME--
+- Em dự định sẽ xây dựng game "Bắn xe tăng cổ điển"(Batte City). 
+- Ðây là một con game khá là gắn liền với tuổi thơ trong đó mình điều khiển một chiếc xe tăng đối đầu với các xe tăng địch.
+- Ðiều khiển xe tăng bằng 4 nút di chuyển lên xuống trái phải và một nút bắn để tiêu diệt tất cả các xe tăng địch khác.
+- Nó có thể gồm nhiều màn chơi với độ khó tăng dần theo từng màn như là tốc độ đạn hoặc các vật cản
+- Ta có thể qua màn chơi bằng cách đạt một số điểm nhất địch hoặc tiêu diệt hết kẻ địch.
+(Ðây chỉ là ý tưởng ban đầu nên em cũng chưa chắc chắn nên sau này em có thể sửa mộ số thứ sao cho phù howpj với khả năng của mình)
