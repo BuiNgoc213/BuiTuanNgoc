@@ -11,8 +11,10 @@
 #include "GameButton.h"
 #include "Tank.h"
 #include "Wall.h"
+#include "Bullet.h"
+#include <math.h>
 
-GSPlay::GSPlay()
+GSPlay::GSPlay() : GameStateBase(StateType::STATE_PLAY)
 {
 }
 
@@ -49,17 +51,17 @@ void GSPlay::Init()
 	m_tank = std::make_shared<Tank>(model, shader, texture);
 	m_tank->Set2DPosition(Globals::screenWidth / 2, Globals::screenHeight - 25);
 	m_tank->SetSize(50, 50);
-	//wall
-	texture = ResourceManagers::GetInstance()->GetTexture("wall.tga");
-	std::shared_ptr<Wall>  wall = std::make_shared<Wall>(model, shader, texture);
-	wall->Set2DPosition(200, 200);
-	wall->SetSize(50, 50);
-	m_listwall.push_back(wall);
+	//bullet
+	texture = ResourceManagers::GetInstance()->GetTexture("bullet.tga");
+	shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
+	m_bullet = std::make_shared<Bullet>(model, shader, texture);
+	//m_bullet->Set2DPosition(Globals::screenWidth - 100, Globals::screenHeight - 100);
+	m_bullet->SetSize(20, 20);
 	// score
 	shader = ResourceManagers::GetInstance()->GetShader("TextShader");
 	std::shared_ptr<Font> font = ResourceManagers::GetInstance()->GetFont("Brightly Crush Shine.otf");
 	m_score = std::make_shared< Text>(shader, font, "score: 10", TextColor::RED, 1.0);
-	m_score->Set2DPosition(Vector2(5, 25));
+	m_score->Set2DPosition(0,25);
 }
 
 void GSPlay::Exit()
@@ -85,16 +87,21 @@ void GSPlay::HandleKeyEvents(int key, bool bIsPressed)
 	if (bIsPressed) {
 		switch (key) {
 		case KEY_MOVE_LEFT:
-			x_val = -1;
+			x_val = -1;		
+			m_tank->SetTexture(ResourceManagers::GetInstance()->GetTexture("Tank_2.tga"));
+			
 			break;
 		case KEY_MOVE_RIGHT:
 			x_val = 1;
+			m_tank->SetTexture(ResourceManagers::GetInstance()->GetTexture("Tank_3.tga"));
 			break;		
 		case KEY_MOVE_FORWORD:
 			y_val = -1;
+			m_tank->SetTexture(ResourceManagers::GetInstance()->GetTexture("Tank_1.tga"));
 			break;
 		case KEY_MOVE_BACKWORD:
 			y_val = 1;
+			m_tank->SetTexture(ResourceManagers::GetInstance()->GetTexture("Tank_4.tga"));
 			break;
 		}
 	}
@@ -103,6 +110,7 @@ void GSPlay::HandleKeyEvents(int key, bool bIsPressed)
 		x_val = 0;
 		y_val = 0;
 	}
+	
 }
 
 void GSPlay::HandleTouchEvents(int x, int y, bool bIsPressed)
@@ -113,6 +121,20 @@ void GSPlay::HandleTouchEvents(int x, int y, bool bIsPressed)
 		{
 			break;
 		}
+	}if (bIsPressed && !m_bullet->GetMoving())
+	{
+		if (Bullet::DIR_RIGHT==true) {
+			m_bullet->set_bullet_dir(Bullet::DIR_RIGHT);
+			m_bullet->Set2DPosition(m_tank->GetPosition().x, m_tank->GetPosition().y);
+			m_bullet->Cal(m_bullet->GetPosition().x, m_bullet->GetPosition().y);
+		}
+		else
+		{
+			m_bullet->set_bullet_dir(Bullet::DIR_LEFT);
+			m_bullet->Set2DPosition(m_tank->GetPosition().x, m_tank->GetPosition().y);
+			m_bullet->Cal(m_bullet->GetPosition().x, m_bullet->GetPosition().y);
+		} 
+		
 	}
 }
 
@@ -128,7 +150,7 @@ void GSPlay::Update(float deltaTime)
 	}
 	int speed = 2;
 	m_tank->Move(x_val, y_val, speed);
-	
+	m_bullet->Update(deltaTime);
 }
 
 void GSPlay::Draw()
@@ -140,8 +162,10 @@ void GSPlay::Draw()
 		it->Draw();
 	}
 	m_tank->Draw();
-	for (auto it : m_listwall)
+	/*for (auto it : m_listwall)
 	{
 		it->Draw();
-	}
+	}*/
+	//m_bullet->Draw();
+	m_bullet->Draw();
 }

@@ -1,23 +1,5 @@
-﻿  GSPlay.cpp
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xutility(138,73): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
-          with
-          [
-              _Ty=double
-          ]
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\memory(2194): message : see reference to function template instantiation 'void std::_Construct_in_place<_Ty,std::shared_ptr<Shader>&,std::shared_ptr<Font>&,const char(&)[10],TextColor,double>(_Ty &,std::shared_ptr<Shader> &,std::shared_ptr<Font> &,const char (&)[10],TextColor &&,double &&) noexcept(false)' being compiled
-          with
-          [
-              _Ty=Text
-          ]
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\memory(2907): message : see reference to function template instantiation 'std::_Ref_count_obj2<_Ty>::_Ref_count_obj2<std::shared_ptr<Shader>&,std::shared_ptr<Font>&,const char(&)[10],TextColor,double>(std::shared_ptr<Shader> &,std::shared_ptr<Font> &,const char (&)[10],TextColor &&,double &&)' being compiled
-          with
-          [
-              _Ty=Text
-          ]
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\memory(2907): message : see reference to function template instantiation 'std::_Ref_count_obj2<_Ty>::_Ref_count_obj2<std::shared_ptr<Shader>&,std::shared_ptr<Font>&,const char(&)[10],TextColor,double>(std::shared_ptr<Shader> &,std::shared_ptr<Font> &,const char (&)[10],TextColor &&,double &&)' being compiled
-          with
-          [
-              _Ty=Text
-          ]
-C:\Users\Storm\Downloads\MiniGameStarter\TrainingFramework\src\GameStates\GSPlay.cpp(61): message : see reference to function template instantiation 'std::shared_ptr<Text> std::make_shared<Text,std::shared_ptr<Shader>&,std::shared_ptr<Font>&,const char(&)[10],TextColor,double>(std::shared_ptr<Shader> &,std::shared_ptr<Font> &,const char (&)[10],TextColor &&,double &&)' being compiled
-  TrainingFramework.vcxproj -> C:\Users\Storm\Downloads\MiniGameStarter\BIN-Nvidia\TrainingFramework.exe
+﻿  Bullet.cpp
+C:\Users\Storm\Documents\BuiTuanNgoc\TankBattle\TrainingFramework\src\GameObject\Bullet.cpp(43,6): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Storm\Documents\BuiTuanNgoc\TankBattle\TrainingFramework\src\GameObject\Bullet.cpp(43,14): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+Application.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/SAFESEH' specification
+  TrainingFramework.vcxproj -> C:\Users\Storm\Documents\BuiTuanNgoc\TankBattle\BIN-Nvidia\TrainingFramework.exe

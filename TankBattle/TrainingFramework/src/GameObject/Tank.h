@@ -1,6 +1,7 @@
 #pragma once 
 #include "Sprite2D.h"
-
+#define WEIHT_TANK 50;
+#define HIGHT_TANK 50;
 class Tank : public Sprite2D
 {
 public:

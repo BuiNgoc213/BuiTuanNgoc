@@ -7,6 +7,7 @@ class Text;
 class GameButton;
 class Tank;
 class Wall;
+class Bullet;
 
 class GSPlay :
 	public GameStateBase
@@ -31,10 +32,11 @@ public:
 private:
 	std::shared_ptr<Sprite2D>	m_background;
 	std::shared_ptr<Text>		m_score;
-	//std::shared_ptr<Player> 					m_player;
 	std::shared_ptr<Tank>		m_tank;
+	std::shared_ptr<Bullet>			m_bullet;
 	std::list<std::shared_ptr<GameButton>>	m_listButton;
 	std::list<std::shared_ptr<Wall>>	m_listwall;
+	std::list<std::shared_ptr<Bullet>>	m_listBullet;
 	int x_val, y_val;
 };
 
