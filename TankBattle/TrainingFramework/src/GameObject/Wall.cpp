@@ -1,103 +1,67 @@
 //#include "Wall.h"
-//Brick::Brick(std::shared_ptr<Model> model, std::shared_ptr<Shader> shader, std::shared_ptr<Texture> texture)
-//    : Sprite2D(-1, model, shader, texture)
-//{
-//    m_collision_count = 0;
-//    m_state_code = 0;
-//}
-//Brick::~Brick()
+//Wall::Wall(std::shared_ptr<Model> model, std::shared_ptr<Shader> shader, std::shared_ptr<Texture> texture)
+//	: Sprite2D(-1, model, shader, texture)
 //{
 //}
-//
-//void Brick::Update(GLfloat deltatime)
+//Wall::~Wall()
 //{
-//
 //}
-//
-//void Brick::bulletHit(Direction bullet_direction)
-//{
-//    int bd = bullet_direction;
-//    m_collision_count++;
-//    if (m_collision_count == 1)
-//    {
-//        m_state_code = bd + 1;
-//    }
-//    else if (m_collision_count == 2)
-//    {
-//        int sum_square = (m_state_code - 1) * (m_state_code - 1) + bd * bd;
-//        if (sum_square % 2 == 1)
-//        {
-//            m_state_code = ((double)sum_square + 19.0) / 4.0;
-//        }
-//        else
-//        {
-//            m_state_code = 9;
-//            to_erase = true;
-//        }
-//    }
-//    else
-//    {
-//        m_state_code = 9;
-//        to_erase = true;
-//    }
-//
-//    switch (m_state_code)
-//    {
-//    case 1:
-//        collision_rect.x = pos_x;
-//        collision_rect.y = pos_y;
-//        collision_rect.h = m_sprite->rect.h / 2;
-//        collision_rect.w = m_sprite->rect.w;
-//        break;
-//    case 2:
-//        collision_rect.x = pos_x + m_sprite->rect.w / 2;
-//        collision_rect.y = pos_y;
-//        collision_rect.h = m_sprite->rect.h;
-//        collision_rect.w = m_sprite->rect.w / 2;
-//        break;
-//    case 3:
-//        collision_rect.x = pos_x;
-//        collision_rect.y = pos_y + m_sprite->rect.h / 2;
-//        collision_rect.h = m_sprite->rect.h / 2;
-//        collision_rect.w = m_sprite->rect.w;
-//        break;
-//    case 4:
-//        collision_rect.x = pos_x;
-//        collision_rect.y = pos_y;
-//        collision_rect.h = m_sprite->rect.h;
-//        collision_rect.w = m_sprite->rect.w / 2;
-//        break;
-//    case 5:
-//        collision_rect.x = pos_x + m_sprite->rect.w / 2;
-//        collision_rect.y = pos_y;
-//        collision_rect.h = m_sprite->rect.h / 2;
-//        collision_rect.w = m_sprite->rect.w / 2;
-//        break;
-//    case 6:
-//        collision_rect.x = pos_x + m_sprite->rect.w / 2;
-//        collision_rect.y = pos_y + m_sprite->rect.h / 2;
-//        collision_rect.h = m_sprite->rect.h / 2;
-//        collision_rect.w = m_sprite->rect.w / 2;
-//        break;
-//    case 7:
-//        collision_rect.x = pos_x;
-//        collision_rect.y = pos_y;
-//        collision_rect.h = m_sprite->rect.h / 2;
-//        collision_rect.w = m_sprite->rect.w / 2;
-//        break;
-//    case 8:
-//        collision_rect.x = pos_x;
-//        collision_rect.y = pos_y + m_sprite->rect.h / 2;
-//        collision_rect.h = m_sprite->rect.h / 2;
-//        collision_rect.w = m_sprite->rect.w / 2;
-//        break;
-//    case 9:
-//        collision_rect.x = 0;
-//        collision_rect.y = 0;
-//        collision_rect.h = 0;
-//        collision_rect.w = 0;
-//        break;
-//    }
-//
-//    src_rect = moveRect(m_sprite->rect, 0, m_state_code);
+//void Wall::LoadMap(char* name) {
+//	FILE* fp = NULL;
+//	fopen_s(&fp, name, "rb");
+//	if (fp == 0) {
+//		return;
+//	}
+//	for (int i = 0; i < MAX_MAP_Y; i++) {
+//		for (int j = 0; j < MAX_MAP_X; j++) {
+//			fscanf_s(fp,"%d")
+//		}
+//	}
 //}
+#include "Wall.h"
+
+Wall::Wall(std::shared_ptr<Model> model, std::shared_ptr<Shader> shader, std::shared_ptr<Texture> texture)
+	: Sprite2D(-1, model, shader, texture), m_pBtClick(nullptr), m_isHolding(false)
+{
+}
+
+Wall::~Wall()
+{
+}
+
+void Wall::SetOnClick(void(*pBtClickFun)())
+{
+	m_pBtClick = pBtClickFun;
+}
+
+bool Wall::HandleTouchEvents(GLint x, GLint y, bool bIsPressed)
+{
+	bool isHandled = false;
+	if (bIsPressed)
+	{
+		if ((x > m_position.x - m_iWidth / 2) && (x < m_position.x + m_iWidth / 2)
+			&& (y > m_position.y - m_iHeight / 2) && (y < m_position.y + m_iHeight / 2))
+		{
+			// The button is being pressed down
+			m_isHolding = true;
+		}
+	}
+	else
+	{
+		if ((x > m_position.x - m_iWidth / 2) && (x < m_position.x + m_iWidth / 2)
+			&& (y > m_position.y - m_iHeight / 2) && (y < m_position.y + m_iHeight / 2)
+			&& m_isHolding == true)
+		{
+			// Only perform click action when the same button was pressed down and released
+			m_pBtClick();
+			isHandled = true;
+		}
+		m_isHolding = false;
+	}
+	return isHandled;
+}
+
+bool Wall::IsHolding()
+{
+	return m_isHolding;
+}

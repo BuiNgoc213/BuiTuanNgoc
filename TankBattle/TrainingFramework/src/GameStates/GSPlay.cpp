@@ -12,6 +12,7 @@
 #include "Tank.h"
 #include "Wall.h"
 #include "Bullet.h"
+#include "Enemy.h"
 #include <math.h>
 
 GSPlay::GSPlay() : GameStateBase(StateType::STATE_PLAY)
@@ -26,6 +27,7 @@ GSPlay::~GSPlay()
 
 void GSPlay::Init()
 {
+	status_ = -1;
 	x_val = 0;
 	y_val = 0;
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
@@ -51,6 +53,16 @@ void GSPlay::Init()
 	m_tank = std::make_shared<Tank>(model, shader, texture);
 	m_tank->Set2DPosition(Globals::screenWidth / 2, Globals::screenHeight - 25);
 	m_tank->SetSize(50, 50);
+	//
+	//texture = ResourceManagers::GetInstance()->GetTexture("wall.tga");
+	//m_wall = std::make_shared<Wall>(model, shader, texture);
+	////m_wall->Set2DPosition(Globals::screenWidth / 2, Globals::screenHeight - 25);
+	//m_wall->SetSize(50, 50);
+	// Enemy
+	texture = ResourceManagers::GetInstance()->GetTexture("Enemy1.tga");
+	m_enemy = std::make_shared<Enemy>(model, shader, texture);
+	m_enemy->Set2DPosition(500, 200);
+	m_enemy->SetSize(50, 50);
 	//bullet
 	texture = ResourceManagers::GetInstance()->GetTexture("bullet.tga");
 	shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
@@ -87,20 +99,24 @@ void GSPlay::HandleKeyEvents(int key, bool bIsPressed)
 	if (bIsPressed) {
 		switch (key) {
 		case KEY_MOVE_LEFT:
-			x_val = -1;		
+			x_val = -1;	
+			status_ = DIR_LEFT;
 			m_tank->SetTexture(ResourceManagers::GetInstance()->GetTexture("Tank_2.tga"));
 			
 			break;
 		case KEY_MOVE_RIGHT:
 			x_val = 1;
+			status_ = DIR_RIGHT;
 			m_tank->SetTexture(ResourceManagers::GetInstance()->GetTexture("Tank_3.tga"));
 			break;		
 		case KEY_MOVE_FORWORD:
 			y_val = -1;
+			status_ = DIR_UP;
 			m_tank->SetTexture(ResourceManagers::GetInstance()->GetTexture("Tank_1.tga"));
 			break;
 		case KEY_MOVE_BACKWORD:
 			y_val = 1;
+			status_ = DIR_DOWN;
 			m_tank->SetTexture(ResourceManagers::GetInstance()->GetTexture("Tank_4.tga"));
 			break;
 		}
@@ -123,17 +139,27 @@ void GSPlay::HandleTouchEvents(int x, int y, bool bIsPressed)
 		}
 	}if (bIsPressed && !m_bullet->GetMoving())
 	{
-		if (Bullet::DIR_RIGHT==true) {
-			m_bullet->set_bullet_dir(Bullet::DIR_RIGHT);
+		if (status_==DIR_RIGHT) {
+			m_bullet->set_bullet_dir(Bullet::BULLETDIR_RIGHT);
 			m_bullet->Set2DPosition(m_tank->GetPosition().x, m_tank->GetPosition().y);
 			m_bullet->Cal(m_bullet->GetPosition().x, m_bullet->GetPosition().y);
 		}
-		else
+		if(status_==DIR_LEFT)
 		{
-			m_bullet->set_bullet_dir(Bullet::DIR_LEFT);
+			m_bullet->set_bullet_dir(Bullet::BULLETDIR_LEFT);
 			m_bullet->Set2DPosition(m_tank->GetPosition().x, m_tank->GetPosition().y);
 			m_bullet->Cal(m_bullet->GetPosition().x, m_bullet->GetPosition().y);
-		} 
+		}
+		if (status_ == DIR_UP) {
+			m_bullet->set_bullet_dir(Bullet::BULLETDIR_UP);
+			m_bullet->Set2DPosition(m_tank->GetPosition().x, m_tank->GetPosition().y);
+			m_bullet->Cal(m_bullet->GetPosition().x, m_bullet->GetPosition().y);
+		}
+		if (status_ == DIR_DOWN) {
+			m_bullet->set_bullet_dir(Bullet::BULLETDIR_DOWN);
+			m_bullet->Set2DPosition(m_tank->GetPosition().x, m_tank->GetPosition().y);
+			m_bullet->Cal(m_bullet->GetPosition().x, m_bullet->GetPosition().y);
+		}
 		
 	}
 }
@@ -151,8 +177,13 @@ void GSPlay::Update(float deltaTime)
 	int speed = 2;
 	m_tank->Move(x_val, y_val, speed);
 	m_bullet->Update(deltaTime);
+	m_enemy->Update(deltaTime);
 }
-
+int GSPlay::Random(int max, int min) {
+	srand(time(NULL));
+	int res = rand() % (max - min + 1) - min;
+	return res;
+}
 void GSPlay::Draw()
 {
 	m_background->Draw();
@@ -162,10 +193,6 @@ void GSPlay::Draw()
 		it->Draw();
 	}
 	m_tank->Draw();
-	/*for (auto it : m_listwall)
-	{
-		it->Draw();
-	}*/
-	//m_bullet->Draw();
+	m_enemy->Draw();
 	m_bullet->Draw();
 }

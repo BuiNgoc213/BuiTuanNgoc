@@ -6,10 +6,11 @@ class Bullet : public Sprite2D
 public:
 	Bullet(std::shared_ptr<Model> model, std::shared_ptr<Shader> shader, std::shared_ptr<Texture> texture);
 	~Bullet();
-	enum BulletDir
-	{
-		DIR_LEFT=0,
-		DIR_RIGHT=1,
+	enum BulletDir {
+		BULLETDIR_LEFT=20,
+		BULLETDIR_RIGHT=21,
+		BULLETDIR_UP=22,
+		BULLETDIR_DOWN=23,
 	};
 	void Update(GLfloat deltatime) override;
 	void Cal(int x1, int y1);

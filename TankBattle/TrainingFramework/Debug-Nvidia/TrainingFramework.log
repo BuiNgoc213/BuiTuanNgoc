@@ -1,5 +1,5 @@
-﻿  Bullet.cpp
-C:\Users\Storm\Documents\BuiTuanNgoc\TankBattle\TrainingFramework\src\GameObject\Bullet.cpp(43,6): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\Storm\Documents\BuiTuanNgoc\TankBattle\TrainingFramework\src\GameObject\Bullet.cpp(43,14): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-Application.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/SAFESEH' specification
+﻿  Enemy.cpp
+C:\Users\Storm\Documents\BuiTuanNgoc\TankBattle\TrainingFramework\src\GameObject\Enemy.cpp(53,62): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
+C:\Users\Storm\Documents\BuiTuanNgoc\TankBattle\TrainingFramework\src\GameObject\Enemy.cpp(53,36): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
+C:\Users\Storm\Documents\BuiTuanNgoc\TankBattle\TrainingFramework\src\GameObject\Enemy.cpp(60,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
   TrainingFramework.vcxproj -> C:\Users\Storm\Documents\BuiTuanNgoc\TankBattle\BIN-Nvidia\TrainingFramework.exe
